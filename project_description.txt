@@ -1,0 +1,25 @@
+VLSI/ASIC Design Workflow Management System
+
+1. Why We Need to Develop This (Motivation)
+In semiconductor chip design (VLSI/ASIC), creating the physical layout of a microchip is an incredibly complex endeavor that is divided into many separate architectural "blocks." Each block must be meticulously designed and pass stringent verification checks before the entire chip can be integrated. Large engineering teams struggle with coordinating this massive effort. Traditional project management software (like generic Jira or Trello) lacks the domain-specific nuances required for VLSI design, such as understanding Floorplanning, DRC (Design Rule Checks), and LVS (Layout Versus Schematic). We need a specialized platform that speaks the language of semiconductor engineers while providing managers with high-level, real-time visibility.
+
+2. What Problem It Solves
+- Lack of Visibility in Pipelines: It is often difficult to know exactly where a specific design block is stalled. This platform instantly identifies bottlenecks (e.g., if 5 blocks are suddenly stuck failing DRC, managers can allocate more resources there).
+- Disconnected Effort Tracking: Tracks estimated vs. actual engineering hours directly tied to specific physical design artifacts. This allows for precision capacity planning and helps prevent engineer burnout.
+- Fragmented Review Processes: Streamlines the approval workflow. Instead of using emails or spreadsheets to sign off on a block, the application enforces a strict lifecycle where an engineer submits a completed block for review, and a manager must explicitly approve (advancing it to completed) or reject it with actionable feedback.
+- Resource Misallocation: By flagging unassigned critical blocks and tracking task complexity against engineer availability, the platform ensures that the right engineers are working on the highest-priority blocks at all times.
+
+3. Application Workflow
+The platform is role-based, differentiating between 'Managers' and 'Engineers':
+
+## Manager Workflow:
+1. Oversight & Analytics: Managers log in to a Dashboard displaying real-time Key Performance Indicators (KPIs) like total active blocks, estimated hours vs. actuals, and critical delays.
+2. Bottleneck Detection: Utilizing pipeline health monitors, managers can spot specific design stages (like LVS or DRC) where multiple blocks are stalled.
+3. Reviewing Submissions: Blocks submitted by engineers arrive in the manager's queue. The manager can review the details and either "Approve" (which safely marks the block as Completed) or "Reject" (requiring a comment, which drops it back to the engineer's active queue to fix).
+
+## Engineer Workflow:
+1. Task Assignment: Engineers log in to a filtered dashboard and Kanban board to see only their assigned blocks, focusing purely on what needs to be done.
+2. Stage Advancement: Engineers move blocks through domain-specific physical design stages: Not Started -> Floorplan -> In Progress -> DRC -> LVS.
+3. Effort Logging: Engineers log the hours they actually spend on a given block to track against the initial estimate provided by management.
+4. Submission: Once LVS checks (the final step) are complete, they advance the block to the "Review" stage, which locks further edits and notifies the manager.
+5. Rework: If a manager rejects the block, it shows up as rejected with specific feedback attached. The engineer must "Reopen" it before making adjustments and re-submitting.
