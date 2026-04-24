@@ -63,65 +63,54 @@ Current analog and mixed-signal layout teams manage all coordination through sha
 
 The system follows a three-tier MERN architecture with a dedicated authentication layer using Google OAuth 2.0 and role-based middleware protecting all API routes.
 
+### Architecture Diagram
+
+```mermaid
+graph TB
+    subgraph CLIENT["CLIENT LAYER — React.js"]
+        direction LR
+        MP["Manager Portal<br/>─────────────<br/>KPI Dashboard<br/>Block Queue<br/>Pipeline View<br/>Approval Panel"]
+        EP["Engineer Portal<br/>─────────────<br/>Kanban Board<br/>Block Detail<br/>Effort Logger<br/>Stage Advancer"]
+        AV["Auth Views<br/>─────────────<br/>Google OAuth<br/>Session Mgmt"]
+    end
+
+    subgraph AUTH["AUTHENTICATION — Passport.js + JWT"]
+        direction LR
+        G["Google OAuth 2.0<br/>Strategy"]
+        JWT["JWT Issuance<br/>& Validation"]
+        ROLE["Role Extraction<br/>Middleware"]
+    end
+
+    subgraph SERVER["SERVER LAYER — Node.js / Express.js"]
+        direction TB
+        ROUTER["API Router<br/>─────────────────────────────────<br/>POST   /api/blocks<br/>GET    /api/blocks<br/>PATCH  /api/blocks/:id/stage<br/>PATCH  /api/blocks/:id/approve<br/>PATCH  /api/blocks/:id/reject<br/>POST   /api/blocks/:id/effort<br/>GET    /api/dashboard/kpis"]
+        BL["Business Logic<br/>─────────────<br/>Stage Gate Enforcement<br/>Assignment Validation<br/>Approval State Machine<br/>Effort Aggregation"]
+    end
+
+    subgraph DB["DATA LAYER — MongoDB Atlas"]
+        direction LR
+        BLOCKS["blocks<br/>─────────────<br/>_id<br/>name<br/>stage<br/>assignedTo<br/>estimatedHours<br/>status<br/>reviewComment<br/>stageHistory[]<br/>createdAt"]
+        USERS["users<br/>─────────────<br/>_id<br/>googleId<br/>email<br/>name<br/>role<br/>avatar<br/>createdAt"]
+        EFFORT["effort_logs<br/>─────────────<br/>_id<br/>blockId → blocks<br/>engineerId → users<br/>estimatedHours<br/>actualHours<br/>loggedAt"]
+    end
+
+    CLIENT -->|"HTTPS REST — Axios"| AUTH
+    AUTH -->|"Verified Request + Role"| SERVER
+    SERVER -->|"Mongoose ODM"| DB
+
+    ROUTER --> BL
+    BLOCKS -->|"ref"| EFFORT
+    USERS -->|"ref"| EFFORT
 ```
-+-----------------------------------------------------------------------------------+
-|                              CLIENT LAYER (React.js)                              |
-|                                                                                   |
-|   +-------------------+   +--------------------+   +-------------------------+   |
-|   |   Manager Portal  |   |  Engineer Portal   |   |  Authentication Views   |   |
-|   |                   |   |                    |   |                         |   |
-|   |  - KPI Dashboard  |   |  - Kanban Board    |   |  - Google OAuth Popup   |   |
-|   |  - Block Queue    |   |  - Block Detail    |   |  - Session Management   |   |
-|   |  - Pipeline View  |   |  - Effort Logger   |   |                         |   |
-|   |  - Approval Panel |   |  - Stage Advancer  |   |                         |   |
-|   +-------------------+   +--------------------+   +-------------------------+   |
-|                                                                                   |
-|                        React Context / Axios HTTP Client                          |
-+-------------------------------------|---------------------------------------------+
-                                      |  HTTPS REST
-+-------------------------------------|---------------------------------------------+
-|                             SERVER LAYER (Node.js / Express.js)                  |
-|                                                                                   |
-|   +----------------------------+    +------------------------------------------+ |
-|   |     Auth Middleware        |    |              API Router                  | |
-|   |                            |    |                                          | |
-|   |  - Passport.js (Google)    |    |  POST   /api/blocks                     | |
-|   |  - JWT Issuance            |    |  GET    /api/blocks                     | |
-|   |  - Role Extraction         |    |  PATCH  /api/blocks/:id/stage           | |
-|   |  - Session Validation      |    |  PATCH  /api/blocks/:id/approve         | |
-|   +----------------------------+    |  PATCH  /api/blocks/:id/reject          | |
-|                                     |  POST   /api/blocks/:id/effort          | |
-|   +----------------------------+    |  GET    /api/users                      | |
-|   |   Business Logic Layer     |    |  GET    /api/dashboard/kpis             | |
-|   |                            |    +------------------------------------------+ |
-|   |  - Stage Gate Enforcement  |                                               |
-|   |  - Assignment Validation   |                                               |
-|   |  - Approval State Machine  |                                               |
-|   |  - Effort Aggregation      |                                               |
-|   +----------------------------+                                               |
-|                                                                                   |
-+-------------------------------------|---------------------------------------------+
-                                      |  Mongoose ODM
-+-------------------------------------|---------------------------------------------+
-|                           DATA LAYER (MongoDB Atlas)                             |
-|                                                                                   |
-|   +-----------------+   +-----------------+   +-----------------------------+   |
-|   |  blocks         |   |  users          |   |  effort_logs                |   |
-|   |                 |   |                 |   |                             |   |
-|   |  _id            |   |  _id            |   |  _id                        |   |
-|   |  name           |   |  googleId       |   |  blockId (ref: blocks)      |   |
-|   |  description    |   |  email          |   |  engineerId (ref: users)    |   |
-|   |  stage          |   |  name           |   |  estimatedHours             |   |
-|   |  assignedTo     |   |  role           |   |  actualHours                |   |
-|   |  estimatedHours |   |  avatar         |   |  loggedAt                   |   |
-|   |  status         |   |  createdAt      |   +-----------------------------+   |
-|   |  reviewComment  |   +-----------------+                                     |
-|   |  stageHistory   |                                                           |
-|   |  createdAt      |                                                           |
-|   |  updatedAt      |                                                           |
-|   +-----------------+                                                           |
-+-----------------------------------------------------------------------------------+
-```
+
+### Tier Responsibilities
+
+| Tier | Technology | Responsibility |
+|---|---|---|
+| Client | React.js + Context API | Role-aware UI rendering, HTTP communication via Axios |
+| Auth | Passport.js + JWT | Google identity verification, token issuance, role-based route guards |
+| Server | Node.js + Express.js | Business logic, stage gate enforcement, approval state machine |
+| Data | MongoDB + Mongoose | Persistent storage of blocks, users, and effort logs with schema validation |
 
 ---
 
@@ -439,6 +428,7 @@ JWT_EXPIRES_IN=7d
 CLIENT_ORIGIN=http://localhost:5173
 ```
 
+---
 
 ## Role-Based Access Control
 
