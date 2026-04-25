@@ -31,6 +31,7 @@
 - [Project Structure](#project-structure)
 - [Getting Started](#getting-started)
 - [Environment Variables](#environment-variables)
+- [API Reference](#api-reference)
 - [Role-Based Access Control](#role-based-access-control)
 - [Team](#team)
 
@@ -120,109 +121,31 @@ The platform enforces two separate workflows depending on the authenticated user
 
 ### Manager Workflow
 
-```
-+------------------------------------------+
-|          Manager Logs In                 |
-|       (Google OAuth 2.0)                 |
-+--------------------+---------------------+
-                     |
-                     v
-+------------------------------------------+
-|         KPI Dashboard                    |
-|                                          |
-|  - Total active blocks                   |
-|  - Estimated hours vs. actual hours      |
-|  - Blocks per stage (pipeline summary)   |
-|  - Critical delay flags                  |
-+--------------------+---------------------+
-                     |
-         +-----------+-----------+
-         |                       |
-         v                       v
-+--------+---------+   +---------+---------+
-|  Pipeline Monitor |   |  Assignment Panel |
-|                   |   |                   |
-|  - Identify       |   |  - Assign blocks  |
-|    stalled stages |   |    to engineers   |
-|  - View blocks    |   |  - Set estimated  |
-|    per stage      |   |    hours          |
-+--------+----------+   +-------------------+
-         |
-         v
-+------------------------------------------+
-|           Review Queue                   |
-|                                          |
-|  Blocks submitted by engineers arrive    |
-|  here, locked from further engineer edits|
-+--------------------+---------------------+
-                     |
-         +-----------+-----------+
-         |                       |
-         v                       v
-+--------+---------+   +---------+---------+
-|     APPROVE      |   |      REJECT       |
-|                  |   |                   |
-|  Block moves to  |   |  Manager provides |
-|  COMPLETED stage |   |  comment. Block   |
-|                  |   |  returns to       |
-+------------------+   |  engineer as      |
-                        |  REJECTED status  |
-                        +-------------------+
+```mermaid
+graph TB
+    A([Manager Logs In\nGoogle OAuth 2.0])
+    A --> B[KPI Dashboard\n─────────────────\nTotal active blocks\nEstimated vs actual hours\nBlocks per stage summary\nCritical delay flags]
+    B --> C[Pipeline Monitor\n─────────────────\nIdentify stalled stages\nView blocks per stage]
+    B --> D[Assignment Panel\n─────────────────\nAssign blocks to engineers\nSet estimated hours]
+    C --> E[Review Queue\n─────────────────\nBlocks submitted by engineers\narriving here locked for edits]
+    E --> F{Manager Decision}
+    F -->|Approve| G([COMPLETED\nBlock fully signed off])
+    F -->|Reject| H([REJECTED\nComment required\nReturns to engineer queue])
 ```
 
 ### Engineer Workflow
 
-```
-+------------------------------------------+
-|          Engineer Logs In                |
-|       (Google OAuth 2.0)                 |
-+--------------------+---------------------+
-                     |
-                     v
-+------------------------------------------+
-|    Filtered Kanban Board                 |
-|    (Shows only assigned blocks)          |
-+--------------------+---------------------+
-                     |
-                     v
-+------------------------------------------+
-|         Stage Advancement                |
-|                                          |
-|  NOT STARTED -> FLOORPLAN -> IN PROGRESS |
-|  -> DRC -> LVS                           |
-|                                          |
-|  Each transition is timestamped and      |
-|  recorded in stageHistory[]              |
-+--------------------+---------------------+
-                     |
-                     v
-+------------------------------------------+
-|           Effort Logging                 |
-|                                          |
-|  Engineer logs actual hours spent        |
-|  against management-set estimate         |
-+--------------------+---------------------+
-                     |
-                     v
-+------------------------------------------+
-|     Advance to REVIEW Stage              |
-|                                          |
-|  Block locks. Manager is notified.       |
-|  Engineer cannot edit until outcome.     |
-+--------------------+---------------------+
-                     |
-         +-----------+-----------+
-         |                       |
-         v                       v
-+--------+---------+   +---------+---------+
-|    APPROVED      |   |     REJECTED      |
-|                  |   |                   |
-|  Block marked    |   |  Feedback visible |
-|  COMPLETED.      |   |  on block. Engineer|
-|  No further      |   |  must REOPEN,     |
-|  action needed.  |   |  rework, and      |
-+------------------+   |  re-submit.       |
-                        +-------------------+
+```mermaid
+graph TB
+    A([Engineer Logs In\nGoogle OAuth 2.0])
+    A --> B[Filtered Kanban Board\n─────────────────\nShows only assigned blocks]
+    B --> C[Stage Advancement\n─────────────────\nNOT STARTED → FLOORPLAN → IN PROGRESS → DRC → LVS\nEach transition timestamped in stageHistory]
+    C --> D[Effort Logging\n─────────────────\nLog actual hours against\nmanagement-set estimate]
+    D --> E[Submit for Review\n─────────────────\nBlock locks\nManager is notified\nEngineer cannot edit until outcome]
+    E --> F{Manager Decision}
+    F -->|Approved| G([COMPLETED\nNo further action needed])
+    F -->|Rejected| H[Feedback Attached\n─────────────────\nEngineer must REOPEN\nbefore making adjustments]
+    H -->|Reopen and Rework| C
 ```
 
 ---
@@ -231,40 +154,22 @@ The platform enforces two separate workflows depending on the authenticated user
 
 Every design block moves through a strict, ordered pipeline. Stages cannot be skipped. The state machine is enforced at the API layer.
 
-```
-+-------------+      +-------------+      +-------------+      +-------------+      +-------------+      +-------------+
-|             |      |             |      |             |      |             |      |             |      |             |
-| NOT STARTED +----> | FLOORPLAN   +----> | IN PROGRESS +----> |     DRC     +----> |     LVS     +----> |   REVIEW    |
-|             |      |             |      |             |      |             |      |             |      |             |
-| Block       |      | Engineer    |      | Active      |      | Design Rule |      | Layout vs   |      | Awaiting    |
-| created,    |      | defines     |      | layout      |      | Check -     |      | Schematic   |      | manager     |
-| not yet     |      | physical    |      | work in     |      | geometry    |      | verification|      | approval.   |
-| assigned.   |      | placement   |      | Cadence.    |      | validation. |      | check.      |      | Block       |
-|             |      | strategy.   |      |             |      |             |      |             |      | is locked.  |
-+-------------+      +-------------+      +-------------+      +-----+-------+      +-------------+      +------+------+
-                                                                      |                                          |
-                                                               DRC FAIL                                    +-----+------+
-                                                               (Return to                                  |            |
-                                                               IN PROGRESS)                     +----------+  APPROVED  |
-                                                                                                |          |            |
-                                                                                                |          +------------+
-                                                                                                |
-                                                                                         +------+------+
-                                                                                         |             |
-                                                                                         | COMPLETED   |
-                                                                                         |             |
-                                                                                         | Block fully |
-                                                                                         | signed off. |
-                                                                                         | Ready for   |
-                                                                                         | chip        |
-                                                                                         | integration.|
-                                                                                         +-------------+
+```mermaid
+graph LR
+    NS([NOT STARTED\n─────────\nBlock created\nnot yet assigned])
+    FP([FLOORPLAN\n─────────\nEngineer defines\nphysical placement\nstrategy])
+    IP([IN PROGRESS\n─────────\nActive layout\nwork in Cadence])
+    DRC([DRC\n─────────\nDesign Rule Check\ngeometry validation])
+    LVS([LVS\n─────────\nLayout vs Schematic\nverification check])
+    RV([REVIEW\n─────────\nAwaiting manager\napproval\nBlock is locked])
+    AP([APPROVED])
+    CO([COMPLETED\n─────────\nBlock fully signed off\nReady for chip\nintegration])
+    RJ([REJECTED\n─────────\nReturns to engineer\nwith manager comment\nEngineer must REOPEN])
 
-                                                                                    REJECTED
-                                                                                    (Returns to engineer
-                                                                                    with manager comment.
-                                                                                    Engineer must REOPEN
-                                                                                    before rework.)
+    NS --> FP --> IP --> DRC --> LVS --> RV
+    DRC -->|DRC Fail| IP
+    RV --> AP --> CO
+    RV --> RJ -->|Reopen and Rework| IP
 ```
 
 ---
@@ -427,6 +332,29 @@ JWT_EXPIRES_IN=7d
 # Client Origin (for CORS)
 CLIENT_ORIGIN=http://localhost:5173
 ```
+
+---
+
+## API Reference
+
+All routes are prefixed with `/api`. Protected routes require a valid JWT in the `Authorization: Bearer <token>` header.
+
+| Method | Endpoint | Role Required | Description |
+|---|---|---|---|
+| GET | `/auth/google` | Public | Initiate Google OAuth flow |
+| GET | `/auth/google/callback` | Public | OAuth callback, returns JWT |
+| GET | `/blocks` | Engineer, Manager | List all blocks (filtered by role) |
+| POST | `/blocks` | Manager | Create a new design block |
+| GET | `/blocks/:id` | Engineer, Manager | Get single block detail |
+| PATCH | `/blocks/:id/assign` | Manager | Assign engineer and set estimated hours |
+| PATCH | `/blocks/:id/stage` | Engineer | Advance block to next stage |
+| POST | `/blocks/:id/effort` | Engineer | Log actual hours against estimate |
+| PATCH | `/blocks/:id/submit` | Engineer | Submit block for manager review |
+| PATCH | `/blocks/:id/reopen` | Engineer | Reopen a rejected block |
+| PATCH | `/blocks/:id/approve` | Manager | Approve block, mark as completed |
+| PATCH | `/blocks/:id/reject` | Manager | Reject block with required comment |
+| GET | `/dashboard/kpis` | Manager | Aggregate KPI metrics |
+| GET | `/users` | Manager | List all engineers |
 
 ---
 
