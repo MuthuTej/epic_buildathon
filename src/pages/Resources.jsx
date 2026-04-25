@@ -42,7 +42,7 @@ export default function Resources() {
       {/* Capacity cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
         {stats.map(({ engineer, blocks: bs, committed, pct }) => {
-          const color = pct > 90 ? '#EF4444' : pct > 70 ? '#F59E0B' : '#22C55E';
+          const color = pct > 90 ? '#EF4444' : pct > 70 ? '#F59E0B' : '#046307';
           return (
             <div key={engineer.id} className="liq-card p-4">
               <div className="flex items-center gap-3">
@@ -72,7 +72,7 @@ export default function Resources() {
               <div className="mt-3 flex flex-wrap gap-1">
                 {bs.map((b) => (
                   <span key={b.id} className="text-[10px] px-1.5 py-0.5 rounded bg-white/[0.05] text-muted-foreground" title={b.name}>
-                    {b.name.length > 16 ? b.name.slice(0,16) + '…' : b.name}
+                    {b.name.length > 16 ? b.name.slice(0, 16) + '…' : b.name}
                   </span>
                 ))}
                 {bs.length === 0 && <span className="text-[11px] text-muted-foreground italic">No blocks assigned</span>}
@@ -92,7 +92,7 @@ export default function Resources() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
           {unassigned.map((b) => (
             <div key={b.id} className="liq-card p-3" style={{ borderLeft: '3px solid #EF4444' }}>
-              <div className="text-[11px] font-mono" style={{ color: '#00D4AA' }}>{b.id}</div>
+              <div className="text-[11px] font-mono" style={{ color: '#0B6E4F' }}>{b.id}</div>
               <div className="text-sm font-semibold">{b.name}</div>
               <div className="text-[11px] text-muted-foreground mt-1">{b.type} · {b.techNode} · {b.estHours}h</div>
               {isManager ? (
@@ -112,7 +112,7 @@ export default function Resources() {
         <div className="px-4 py-3 border-b border-white/10 text-sm font-semibold">Recent Assignments</div>
         <div className="overflow-x-auto scrollbar-thin">
           <table className="w-full text-sm">
-            <thead className="text-[11px] uppercase tracking-wider text-muted-foreground bg-[#1A2030]">
+            <thead className="text-[11px] uppercase tracking-wider text-muted-foreground bg-gray-50">
               <tr><Th>Block ID</Th><Th>Block Name</Th><Th>Note</Th><Th>By</Th><Th>Timestamp</Th></tr>
             </thead>
             <tbody>
@@ -121,7 +121,7 @@ export default function Resources() {
               )}
               {assignmentHistory.map((a) => (
                 <tr key={a.id} className="border-t border-white/[0.06]">
-                  <Td className="font-mono text-[12px]" style={{ color: '#00D4AA' }}>{a.blockId}</Td>
+                  <Td className="font-mono text-[12px]" style={{ color: '#0B6E4F' }}>{a.blockId}</Td>
                   <Td>{a.blockName}</Td>
                   <Td className="text-muted-foreground">{a.note || '—'}</Td>
                   <Td>{a.actor}</Td>
@@ -148,7 +148,7 @@ export default function Resources() {
         <div className="space-y-2">
           {stats.map(({ engineer, committed, pct }) => {
             const isOver = pct > 100;
-            const color = pct > 90 ? '#EF4444' : pct > 70 ? '#F59E0B' : '#22C55E';
+            const color = pct > 90 ? '#EF4444' : pct > 70 ? '#F59E0B' : '#046307';
             const selected = pickedEng === engineer.id;
             return (
               <button
@@ -157,7 +157,7 @@ export default function Resources() {
                 onClick={() => setPickedEng(engineer.id)}
                 className="w-full text-left liq-card p-3 transition-all"
                 style={{
-                  borderColor: selected ? '#00D4AA' : 'rgba(255,255,255,0.09)',
+                  borderColor: selected ? '#0B6E4F' : 'rgba(255,255,255,0.09)',
                   background: selected ? 'rgba(0,212,170,0.08)' : undefined,
                   opacity: isOver ? 0.55 : 1,
                   cursor: isOver ? 'not-allowed' : 'pointer',

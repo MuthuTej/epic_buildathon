@@ -2,47 +2,44 @@
 @tailwind components;
 @tailwind utilities;
 
-/* LayoutIQ — Dark-only Design System
-   All colors HSL. Custom semantic tokens for stage colors live as CSS vars
-   but stage badges/borders also use exact hex via inline style as required.
-*/
+/* GigSurance - Light Minimalist Design System */
 
 @layer base {
   :root {
     /* Core surfaces */
-    --background: 222 38% 7%;          /* #0B0F1A */
-    --foreground: 210 40% 96%;         /* #F1F5F9 */
+    --background: 240 10% 98%;          /* #FAFAFC, very light gray/blue tint */
+    --foreground: 222 38% 7%;         /* text color */
 
-    --sidebar-bg: 220 30% 12%;         /* #111827 */
-    --card: 222 26% 16%;               /* #1E2535 */
-    --card-elevated: 222 24% 19%;      /* #252D3D */
-    --card-foreground: 210 40% 96%;
+    --sidebar-bg: 0 0% 100%;         /* white */
+    --card: 0 0% 100%;               /* white */
+    --card-elevated: 0 0% 100%;      /* white */
+    --card-foreground: 222 38% 7%;
 
-    --popover: 222 26% 16%;
-    --popover-foreground: 210 40% 96%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 38% 7%;
 
-    --primary: 167 100% 42%;           /* #00D4AA teal */
-    --primary-foreground: 222 38% 7%;
+    --primary: 222 38% 7%;           /* Black for buttons */
+    --primary-foreground: 0 0% 100%; /* White text */
 
-    --secondary: 222 24% 19%;
-    --secondary-foreground: 210 40% 96%;
+    --secondary: 240 5% 96%;
+    --secondary-foreground: 222 38% 7%;
 
-    --muted: 222 22% 22%;
-    --muted-foreground: 215 20% 65%;   /* #94A3B8 */
+    --muted: 240 5% 96%;
+    --muted-foreground: 215 16% 47%;   /* #64748B */
 
-    --accent: 167 100% 42%;
+    --accent: 240 5% 96%;
     --accent-foreground: 222 38% 7%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 96%;
 
-    --border: 0 0% 100%;               /* used with /15 opacity */
-    --input: 222 22% 22%;
-    --ring: 167 100% 42%;
+    --border: 214 32% 91%;               /* #E2E8F0 */
+    --input: 214 32% 91%;
+    --ring: 222 38% 7%;
 
-    --radius: 0.625rem;
+    --radius: 1rem;
 
-    /* Stage colors as CSS vars (also used as exact hex inline) */
+    /* Stage colors */
     --stage-not-started: #EF4444;
     --stage-floorplan: #F97316;
     --stage-in-progress: #3B82F6;
@@ -50,13 +47,13 @@
     --stage-lvs: #06B6D4;
     --stage-review: #EAB308;
     --stage-rejected: #6B7280;
-    --stage-completed: #22C55E;
+    --stage-completed: #046307;
   }
 }
 
 @layer base {
   * {
-    border-color: hsl(var(--border) / 0.10);
+    border-color: hsl(var(--border));
   }
   html, body, #root {
     height: 100%;
@@ -64,67 +61,76 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
-    font-feature-settings: 'cv11', 'ss01', 'ss03';
+  }
+  .font-serif {
+    font-family: 'Playfair Display', ui-serif, Georgia, serif;
   }
   .font-mono {
     font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', ui-serif, Georgia, serif;
   }
 }
 
 @layer components {
   .liq-card {
-    @apply rounded-xl bg-card;
-    border: 1px solid rgba(255, 255, 255, 0.09);
+    @apply rounded-2xl bg-card transition-shadow duration-200;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -2px rgba(0, 0, 0, 0.03);
   }
   .liq-card-elevated {
-    background-color: #252D3D;
-    border: 1px solid rgba(255, 255, 255, 0.09);
-    @apply rounded-xl;
+    @apply bg-white rounded-2xl shadow-lg;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
   }
   .liq-input {
-    @apply w-full rounded-md bg-[#0F1422] px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground;
-    border: 1px solid rgba(255, 255, 255, 0.10);
+    @apply w-full rounded-xl bg-white px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground shadow-sm transition-all;
+    border: 1px solid rgba(0, 0, 0, 0.10);
   }
   .liq-input:focus {
     outline: none;
-    border-color: #00D4AA;
-    box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.18);
+    border-color: hsl(var(--ring));
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08);
   }
   .liq-btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors;
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition-all shadow-sm;
   }
   .liq-btn-primary {
-    background: #00D4AA;
-    color: #0B0F1A;
+    @apply bg-primary text-primary-foreground hover:bg-black/80;
   }
-  .liq-btn-primary:hover { background: #00bf99; }
   .liq-btn-ghost {
-    @apply text-foreground;
-    background: transparent;
-    border: 1px solid rgba(255,255,255,0.12);
+    @apply text-foreground bg-transparent border border-gray-200 hover:bg-gray-50;
   }
-  .liq-btn-ghost:hover { background: rgba(255,255,255,0.05); }
-  .scrollbar-thin::-webkit-scrollbar { width: 8px; height: 8px; }
-  .scrollbar-thin::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.10); border-radius: 4px; }
+  .scrollbar-thin::-webkit-scrollbar { width: 6px; height: 6px; }
+  .scrollbar-thin::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 4px; }
+  .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
 }
 
 @layer utilities {
+  .warm-gradient-bg {
+    background: radial-gradient(circle at top left, rgba(255, 237, 213, 0.5) 0%, transparent 40%),
+                radial-gradient(circle at bottom right, rgba(254, 243, 199, 0.5) 0%, transparent 40%),
+                #FAFAFC;
+  }
+
   .pulse-dot {
-    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
     animation: pulse-ring 1.6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
   @keyframes pulse-ring {
-    0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6); }
-    70% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+    0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+    70% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
     100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
   }
   .ring-pulse {
     animation: ring-pulse 1.8s ease-out infinite;
   }
   @keyframes ring-pulse {
-    0% { box-shadow: 0 0 0 0 rgba(0, 212, 170, 0.6); }
-    70% { box-shadow: 0 0 0 10px rgba(0, 212, 170, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(0, 212, 170, 0); }
+    0% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.3); }
+    70% { box-shadow: 0 0 0 10px rgba(0, 0, 0, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); }
   }
   .toast-in {
     animation: toast-in 0.25s ease-out;

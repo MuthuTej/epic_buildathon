@@ -33,7 +33,7 @@ export default function AuditLog() {
 
   const blockIds = Array.from(new Set(auditLog.map((a) => a.blockId))).sort();
   const actorList = Array.from(new Set(auditLog.map((a) => a.actor))).sort();
-  const actionList = ['CREATE','ADVANCE','APPROVE','REJECT','ASSIGN','REOPEN','OVERRIDE'];
+  const actionList = ['CREATE', 'ADVANCE', 'APPROVE', 'REJECT', 'ASSIGN', 'REOPEN', 'OVERRIDE'];
 
   return (
     <div className="space-y-4">
@@ -42,15 +42,15 @@ export default function AuditLog() {
           <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
           <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search log…" className="liq-input pl-9" />
         </div>
-        <Select value={fBlock} onChange={setFBlock} placeholder="All blocks" options={blockIds.map(b => ({value:b, label:b}))} />
-        <Select value={fActor} onChange={setFActor} placeholder="All actors" options={actorList.map(a => ({value:a, label:a}))} />
-        <Select value={fAction} onChange={setFAction} placeholder="All actions" options={actionList.map(a => ({value:a, label:a}))} />
+        <Select value={fBlock} onChange={setFBlock} placeholder="All blocks" options={blockIds.map(b => ({ value: b, label: b }))} />
+        <Select value={fActor} onChange={setFActor} placeholder="All actors" options={actorList.map(a => ({ value: a, label: a }))} />
+        <Select value={fAction} onChange={setFAction} placeholder="All actions" options={actionList.map(a => ({ value: a, label: a }))} />
       </div>
 
       <div className="liq-card overflow-hidden">
         <div className="overflow-x-auto scrollbar-thin">
           <table className="w-full text-sm">
-            <thead className="text-[11px] uppercase tracking-wider text-muted-foreground bg-[#1A2030]">
+            <thead className="text-[11px] uppercase tracking-wider text-muted-foreground bg-gray-50">
               <tr>
                 <Th>Timestamp</Th><Th>Block ID</Th><Th>Block Name</Th>
                 <Th>Action</Th><Th>From</Th><Th>To</Th><Th>Actor</Th><Th>Role</Th>
@@ -61,7 +61,7 @@ export default function AuditLog() {
               {visible.map((a) => (
                 <tr key={a.id} className="border-t border-white/[0.06]">
                   <Td className="text-[11px] font-mono text-muted-foreground whitespace-nowrap">{formatTime(a.timestamp)}</Td>
-                  <Td className="font-mono text-[12px]" style={{ color: '#00D4AA' }}>{a.blockId}</Td>
+                  <Td className="font-mono text-[12px]" style={{ color: '#0B6E4F' }}>{a.blockId}</Td>
                   <Td>{a.blockName}</Td>
                   <Td><ActionBadge action={a.action} /></Td>
                   <Td>{a.fromStage ? <StagePill stage={a.fromStage} /> : <span className="text-muted-foreground">—</span>}</Td>

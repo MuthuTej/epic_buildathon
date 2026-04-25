@@ -61,12 +61,12 @@ export default function Blocks() {
             className="liq-input pl-9"
           />
         </div>
-        <Select value={fStage} onChange={setFStage} placeholder="All stages" options={Object.keys(stageConfig).map(s => ({value:s, label:stageConfig[s].label}))} />
-        <Select value={fCx}    onChange={setFCx}    placeholder="All complexity" options={Object.keys(complexityConfig).map(c => ({value:c, label:c}))} />
-        <Select value={fNode}  onChange={setFNode}  placeholder="All nodes"      options={['28nm','40nm','65nm','180nm'].map(n => ({value:n, label:n}))} />
-        <Select value={fEng}   onChange={setFEng}   placeholder="All engineers"  options={engineers.filter(e=>e.role==='engineer').map(e => ({value:e.id, label:e.name}))} />
+        <Select value={fStage} onChange={setFStage} placeholder="All stages" options={Object.keys(stageConfig).map(s => ({ value: s, label: stageConfig[s].label }))} />
+        <Select value={fCx} onChange={setFCx} placeholder="All complexity" options={Object.keys(complexityConfig).map(c => ({ value: c, label: c }))} />
+        <Select value={fNode} onChange={setFNode} placeholder="All nodes" options={['28nm', '40nm', '65nm', '180nm'].map(n => ({ value: n, label: n }))} />
+        <Select value={fEng} onChange={setFEng} placeholder="All engineers" options={engineers.filter(e => e.role === 'engineer').map(e => ({ value: e.id, label: e.name }))} />
         <label className="flex items-center gap-2 text-xs text-muted-foreground cursor-pointer">
-          <input type="checkbox" checked={unassignedOnly} onChange={(e) => setUnassignedOnly(e.target.checked)} className="accent-[#00D4AA]" />
+          <input type="checkbox" checked={unassignedOnly} onChange={(e) => setUnassignedOnly(e.target.checked)} className="accent-[#0B6E4F]" />
           Unassigned only
         </label>
         <button
@@ -129,7 +129,7 @@ function BlockTable({ blocks, onView, canEdit, compact }) {
   return (
     <div className="overflow-x-auto scrollbar-thin">
       <table className="w-full text-sm">
-        <thead className="text-[11px] uppercase tracking-wider text-muted-foreground bg-[#1A2030]">
+        <thead className="text-[11px] uppercase tracking-wider text-muted-foreground bg-gray-50">
           <tr>
             <Th>Block ID</Th><Th>Name</Th><Th>Type</Th><Th>Tech</Th><Th>Complexity</Th>
             <Th className="text-right">Est Hrs</Th><Th>Assigned To</Th><Th>Stage</Th><Th>Last Updated</Th><Th>Actions</Th>
@@ -147,7 +147,7 @@ function BlockTable({ blocks, onView, canEdit, compact }) {
                 className="cursor-pointer hover:bg-white/[0.03] border-t border-white/[0.06]"
                 style={{ boxShadow: `inset 3px 0 0 0 ${stageColor}` }}
               >
-                <Td className="font-mono text-[12px]" style={{ color: '#00D4AA' }}>{b.id}</Td>
+                <Td className="font-mono text-[12px]" style={{ color: '#0B6E4F' }}>{b.id}</Td>
                 <Td className="font-medium">{b.name}</Td>
                 <Td className="text-muted-foreground">{b.type}</Td>
                 <Td>
@@ -332,12 +332,12 @@ function AddBlockDrawer({ open, onClose, onCreate, engineers, blocks }) {
         <div className="grid grid-cols-2 gap-3">
           <Field label="Block Type">
             <select className="liq-input" value={type} onChange={(e) => setType(e.target.value)}>
-              {['Inverter','Current Mirror','Diff Pair','Bandgap','OTA','LDO','Other'].map(o => <option key={o}>{o}</option>)}
+              {['Inverter', 'Current Mirror', 'Diff Pair', 'Bandgap', 'OTA', 'LDO', 'Other'].map(o => <option key={o}>{o}</option>)}
             </select>
           </Field>
           <Field label="Tech Node">
             <select className="liq-input" value={node} onChange={(e) => setNode(e.target.value)}>
-              {['28nm','40nm','65nm','180nm'].map(o => <option key={o}>{o}</option>)}
+              {['28nm', '40nm', '65nm', '180nm'].map(o => <option key={o}>{o}</option>)}
             </select>
           </Field>
         </div>
@@ -365,7 +365,7 @@ function AddBlockDrawer({ open, onClose, onCreate, engineers, blocks }) {
             ))}
           </div>
           <div className="text-xs text-muted-foreground mt-2">
-            Estimated Hours: {cfg.baseHours} × {cfg.factor} = <span className="text-[#00D4AA] font-semibold">{estHours}h</span>
+            Estimated Hours: {cfg.baseHours} × {cfg.factor} = <span className="text-[#0B6E4F] font-semibold">{estHours}h</span>
           </div>
         </Field>
         <Field label="Assign Engineer (optional)">

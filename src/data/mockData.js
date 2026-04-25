@@ -8,7 +8,7 @@ export const stageConfig = {
   'LVS':         { color: '#06B6D4', label: 'LVS',         order: 4 },
   'REVIEW':      { color: '#EAB308', label: 'Review',      order: 5 },
   'REJECTED':    { color: '#6B7280', label: 'Rejected',    order: 6 },
-  'COMPLETED':   { color: '#22C55E', label: 'Completed',   order: 7 },
+  'COMPLETED':   { color: '#046307', label: 'Completed',   order: 7 },
 };
 
 export const STAGE_ORDER = [
@@ -24,7 +24,7 @@ export const complexityConfig = {
 
 export const techNodeColors = {
   '28nm':  '#EAB308',
-  '40nm':  '#00D4AA',
+  '40nm':  '#0B6E4F',
   '65nm':  '#A855F7',
   '180nm': '#F97316',
 };

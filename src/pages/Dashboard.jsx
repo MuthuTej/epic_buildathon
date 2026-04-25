@@ -96,12 +96,12 @@ function ManagerDashboard() {
     <div className="space-y-6">
       {/* KPI grid */}
       <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4">
-        <Kpi label="Total Blocks"   value={kpis.total}      Icon={Layers}      color="#94A3B8" />
-        <Kpi label="Completed"      value={kpis.completed}  Icon={CheckCircle2} color="#22C55E" />
-        <Kpi label="In Review"      value={kpis.inReview}   Icon={Clock}        color="#EAB308" />
-        <Kpi label="Unassigned"     value={kpis.unassigned} Icon={AlertCircle}  color="#EF4444" pulse={kpis.unassigned > 0} />
-        <Kpi label="Critical"       value={kpis.critical}   Icon={Zap}          color="#A855F7" />
-        <Kpi label="Total Est. Hrs" value={kpis.totalEst}   Icon={Activity}     color="#00D4AA" suffix="h" />
+        <Kpi label="Total Blocks" value={kpis.total} Icon={Layers} color="#94A3B8" />
+        <Kpi label="Completed" value={kpis.completed} Icon={CheckCircle2} color="#046307" />
+        <Kpi label="In Review" value={kpis.inReview} Icon={Clock} color="#EAB308" />
+        <Kpi label="Unassigned" value={kpis.unassigned} Icon={AlertCircle} color="#EF4444" pulse={kpis.unassigned > 0} />
+        <Kpi label="Critical" value={kpis.critical} Icon={Zap} color="#A855F7" />
+        <Kpi label="Total Est. Hrs" value={kpis.totalEst} Icon={Activity} color="#0B6E4F" suffix="h" />
       </div>
 
       {/* Charts */}
@@ -140,8 +140,8 @@ function ManagerDashboard() {
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-sm font-semibold">Hours per Engineer</h3>
             <div className="flex gap-3 text-xs">
-              <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-sm bg-[#00D4AA]"/>Est</span>
-              <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-sm bg-[#3B82F6]"/>Actual</span>
+              <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-sm bg-[#0B6E4F]" />Est</span>
+              <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-sm bg-[#3B82F6]" />Actual</span>
             </div>
           </div>
           <div className="h-64">
@@ -150,8 +150,8 @@ function ManagerDashboard() {
                 <XAxis dataKey="name" stroke="#94A3B8" fontSize={11} tickLine={false} axisLine={false} />
                 <YAxis stroke="#94A3B8" fontSize={11} tickLine={false} axisLine={false} />
                 <Tooltip contentStyle={tooltipStyle} cursor={{ fill: 'rgba(255,255,255,0.04)' }} />
-                <Bar dataKey="est"    fill="#00D4AA" radius={[4,4,0,0]} />
-                <Bar dataKey="actual" fill="#3B82F6" radius={[4,4,0,0]} />
+                <Bar dataKey="est" fill="#0B6E4F" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="actual" fill="#3B82F6" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -159,7 +159,7 @@ function ManagerDashboard() {
             {engineerHoursData.map((d) => (
               <div key={d.name} className="text-center text-[11px]">
                 <div className="text-muted-foreground">{d.name}</div>
-                <div className={d.variance > 0 ? 'text-[#EF4444]' : 'text-[#22C55E]'}>
+                <div className={d.variance > 0 ? 'text-[#EF4444]' : 'text-[#046307]'}>
                   {d.variance > 0 ? '+' : ''}{d.variance}%
                 </div>
               </div>
@@ -172,7 +172,7 @@ function ManagerDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
         <div className="liq-card p-5 lg:col-span-3">
           <div className="flex items-center gap-2 mb-3">
-            <Signal size={16} style={{ color: '#00D4AA' }} />
+            <Signal size={16} style={{ color: '#0B6E4F' }} />
             <h3 className="text-sm font-semibold">Pipeline Health</h3>
           </div>
           <div className="space-y-2">
@@ -222,10 +222,10 @@ function ManagerDashboard() {
               const eng = getEngineerById(b.assignedTo);
               const reviewEntry = b.stageHistory.find((s) => s.stage === 'REVIEW');
               return (
-                <div key={b.id} className="rounded-md p-3" style={{ background: 'rgba(255,255,255,0.03)' }}>
+                <div key={b.id} className="rounded-md p-3" style={{ background: 'rgba(0,0,0,0.03)' }}>
                   <div className="flex items-start justify-between gap-2">
                     <div className="min-w-0">
-                      <div className="text-[11px] font-mono" style={{ color: '#00D4AA' }}>{b.id}</div>
+                      <div className="text-[11px] font-mono" style={{ color: '#0B6E4F' }}>{b.id}</div>
                       <div className="text-sm font-semibold truncate">{b.name}</div>
                       <div className="text-[11px] text-muted-foreground mt-0.5">
                         {eng ? eng.name : '—'} · in review {reviewEntry ? relativeTime(reviewEntry.timestamp) : ''}
@@ -235,13 +235,13 @@ function ManagerDashboard() {
                       <button
                         onClick={() => handleApprove(b)}
                         className="liq-btn px-2 py-1 text-xs"
-                        style={{ background: '#22C55E', color: '#0B0F1A' }}
-                      ><Check size={12}/></button>
+                        style={{ background: '#046307', color: '#FFFFFF' }}
+                      ><Check size={12} /></button>
                       <button
                         onClick={() => handleReject(b)}
                         className="liq-btn px-2 py-1 text-xs"
-                        style={{ background: '#EF4444', color: '#0B0F1A' }}
-                      ><X size={12}/></button>
+                        style={{ background: '#EF4444', color: '#FFFFFF' }}
+                      ><X size={12} /></button>
                     </div>
                   </div>
                 </div>
@@ -264,13 +264,13 @@ function ManagerDashboard() {
                 <span className="text-foreground/90">
                   <strong>{a.actor}</strong>{' '}
                   {a.action === 'CREATE' ? 'created' :
-                   a.action === 'APPROVE' ? 'approved' :
-                   a.action === 'REJECT' ? 'rejected' :
-                   a.action === 'ASSIGN' ? 'assigned' :
-                   a.action === 'REOPEN' ? 'reopened' :
-                   a.action === 'OVERRIDE' ? 'overrode hours on' :
-                   'advanced'}{' '}
-                  <span className="font-mono text-[#00D4AA]">{a.blockId}</span>
+                    a.action === 'APPROVE' ? 'approved' :
+                      a.action === 'REJECT' ? 'rejected' :
+                        a.action === 'ASSIGN' ? 'assigned' :
+                          a.action === 'REOPEN' ? 'reopened' :
+                            a.action === 'OVERRIDE' ? 'overrode hours on' :
+                              'advanced'}{' '}
+                  <span className="font-mono text-[#0B6E4F]">{a.blockId}</span>
                   {a.fromStage && a.toStage && a.action === 'ADVANCE' && (
                     <> from {a.fromStage} → {a.toStage}</>
                   )}
@@ -289,13 +289,13 @@ function ManagerDashboard() {
         footer={
           <>
             <button className="liq-btn liq-btn-ghost" onClick={() => setConfirm(null)}>Cancel</button>
-            <button className="liq-btn" style={{ background: '#22C55E', color: '#0B0F1A' }} onClick={doApprove}>Confirm Approve</button>
+            <button className="liq-btn" style={{ background: '#046307', color: '#FFFFFF' }} onClick={doApprove}>Confirm Approve</button>
           </>
         }
       >
         {confirm && (
           <p className="text-sm text-muted-foreground">
-            Mark <span className="font-mono text-[#00D4AA]">{confirm.block.id}</span>{' '}
+            Mark <span className="font-mono text-[#0B6E4F]">{confirm.block.id}</span>{' '}
             <strong className="text-foreground">{confirm.block.name}</strong> as Completed?
           </p>
         )}
@@ -308,14 +308,14 @@ function ManagerDashboard() {
         footer={
           <>
             <button className="liq-btn liq-btn-ghost" onClick={() => setConfirm(null)}>Cancel</button>
-            <button className="liq-btn" style={{ background: '#EF4444', color: '#0B0F1A' }} onClick={doReject}>Confirm Reject</button>
+            <button className="liq-btn" style={{ background: '#EF4444', color: '#FFFFFF' }} onClick={doReject}>Confirm Reject</button>
           </>
         }
       >
         {confirm && (
           <div>
             <p className="text-sm text-muted-foreground mb-3">
-              Reject <span className="font-mono text-[#00D4AA]">{confirm.block.id}</span> {confirm.block.name}?
+              Reject <span className="font-mono text-[#0B6E4F]">{confirm.block.id}</span> {confirm.block.name}?
             </p>
             <label className="text-xs text-muted-foreground block mb-1">Rejection Reason (required)</label>
             <textarea
@@ -374,10 +374,10 @@ function EngineerDashboard() {
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <Kpi label="My Blocks"        value={kpis.total}          Icon={Layers}      color="#00D4AA" />
-        <Kpi label="In Progress"      value={kpis.inProgress}     Icon={Activity}    color="#3B82F6" />
-        <Kpi label="Hours Logged"     value={kpis.hoursLogged}    Icon={Clock}       color="#A855F7" suffix="h" />
-        <Kpi label="Hours Remaining"  value={kpis.hoursRemaining} Icon={Zap}         color="#EAB308" suffix="h" />
+        <Kpi label="My Blocks" value={kpis.total} Icon={Layers} color="#0B6E4F" />
+        <Kpi label="In Progress" value={kpis.inProgress} Icon={Activity} color="#3B82F6" />
+        <Kpi label="Hours Logged" value={kpis.hoursLogged} Icon={Clock} color="#A855F7" suffix="h" />
+        <Kpi label="Hours Remaining" value={kpis.hoursRemaining} Icon={Zap} color="#EAB308" suffix="h" />
       </div>
 
       <div>
@@ -387,13 +387,13 @@ function EngineerDashboard() {
           {mine.map((b) => {
             const cfg = stageConfig[b.stage];
             const pct = b.estHours ? Math.min(100, Math.round((b.actualHours / b.estHours) * 100)) : 0;
-            const showAdvance = !['REVIEW','COMPLETED','REJECTED'].includes(b.stage);
+            const showAdvance = !['REVIEW', 'COMPLETED', 'REJECTED'].includes(b.stage);
             const showSubmit = b.stage === 'LVS';
             return (
               <div key={b.id} className="liq-card p-4" style={{ borderLeft: `3px solid ${cfg.color}` }}>
                 <div className="flex items-start justify-between">
                   <div className="min-w-0">
-                    <div className="text-[11px] font-mono" style={{ color: '#00D4AA' }}>{b.id}</div>
+                    <div className="text-[11px] font-mono" style={{ color: '#0B6E4F' }}>{b.id}</div>
                     <div className="text-sm font-semibold truncate">{b.name}</div>
                   </div>
                   <StageBadge stage={b.stage} />
@@ -416,13 +416,13 @@ function EngineerDashboard() {
                     <button
                       onClick={() => handleSubmitReview(b)}
                       className="liq-btn flex-1 py-1.5 text-xs"
-                      style={{ background: '#EAB308', color: '#0B0F1A' }}
+                      style={{ background: '#EAB308', color: '#FFFFFF' }}
                     >Submit for Review</button>
                   ) : showAdvance ? (
                     <button
                       onClick={() => handleAdvance(b)}
                       className="liq-btn liq-btn-ghost flex-1 py-1.5 text-xs"
-                      style={{ borderColor: '#00D4AA', color: '#00D4AA' }}
+                      style={{ borderColor: '#0B6E4F', color: '#0B6E4F' }}
                     >Advance Stage <ArrowRight size={12} /></button>
                   ) : (
                     <div className="text-[11px] text-muted-foreground">No actions available</div>
@@ -442,7 +442,7 @@ function EngineerDashboard() {
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
                   <div className="text-sm font-semibold">
-                    <span className="font-mono text-[#00D4AA]">{b.id}</span> — {b.name} was rejected
+                    <span className="font-mono text-[#0B6E4F]">{b.id}</span> — {b.name} was rejected
                   </div>
                   <blockquote className="mt-2 text-sm italic text-foreground/80 border-l-2 border-[#EF4444]/60 pl-3">
                     “{b.rejectionComment}”
@@ -473,10 +473,10 @@ function EngineerDashboard() {
                   formatter={(v, k, p) => [v + 'h', k === 'est' ? 'Estimated' : 'Actual']}
                   labelFormatter={(l, p) => p && p[0] ? `${l} — ${p[0].payload.full}` : l}
                 />
-                <Bar dataKey="est" radius={[4,4,0,0]}>
+                <Bar dataKey="est" radius={[4, 4, 0, 0]}>
                   {chartData.map((d, i) => <Cell key={i} fill={d.color} fillOpacity={0.45} />)}
                 </Bar>
-                <Bar dataKey="actual" radius={[4,4,0,0]}>
+                <Bar dataKey="actual" radius={[4, 4, 0, 0]}>
                   {chartData.map((d, i) => <Cell key={i} fill={d.color} />)}
                 </Bar>
               </BarChart>
@@ -500,7 +500,7 @@ function EngineerDashboard() {
         {confirm && (
           <div>
             <div className="text-sm">
-              <span className="font-mono text-[#00D4AA]">{confirm.block.id}</span> — {confirm.block.name}
+              <span className="font-mono text-[#0B6E4F]">{confirm.block.id}</span> — {confirm.block.name}
             </div>
             <div className="mt-4 flex items-center gap-3">
               <StageBadge stage={confirm.block.stage} size="lg" />
@@ -536,9 +536,9 @@ function Kpi({ label, value, Icon, color, suffix, pulse }) {
 }
 
 const tooltipStyle = {
-  backgroundColor: '#1E2535',
-  border: '1px solid rgba(255,255,255,0.1)',
+  backgroundColor: '#FFFFFF',
+  border: '1px solid rgba(0,0,0,0.1)',
   borderRadius: 8,
   fontSize: 12,
-  color: '#F1F5F9',
+  color: '#111827',
 };

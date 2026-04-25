@@ -39,12 +39,12 @@ export default function Login() {
         <div className="flex items-center justify-center gap-3 mb-5">
           <div
             className="h-12 w-12 rounded-xl flex items-center justify-center"
-            style={{ background: 'linear-gradient(135deg, #00D4AA, #0E7490)' }}
+            style={{ background: 'linear-gradient(135deg, #0B6E4F, #0E7490)' }}
           >
             <Cpu size={24} color="#0B0F1A" strokeWidth={2.5} />
           </div>
           <div className="text-3xl font-bold tracking-tight">
-            Layout<span style={{ color: '#00D4AA' }}>IQ</span>
+            Layout<span style={{ color: '#0B6E4F' }}>IQ</span>
           </div>
         </div>
         <p className="text-muted-foreground mb-10">Workflow Intelligence for Analog IC Teams</p>
@@ -70,10 +70,10 @@ export default function Login() {
       >
         <div className="grid grid-cols-2 gap-4">
           {/* Manager card */}
-          <div className="liq-card p-5 flex flex-col items-center text-center hover:border-[#00D4AA]/50 transition-colors">
+          <div className="liq-card p-5 flex flex-col items-center text-center hover:border-[#0B6E4F]/50 transition-colors">
             <div className="h-12 w-12 rounded-lg flex items-center justify-center mb-3"
               style={{ background: 'rgba(0,212,170,0.15)' }}>
-              <Briefcase size={22} style={{ color: '#00D4AA' }} />
+              <Briefcase size={22} style={{ color: '#0B6E4F' }} />
             </div>
             <div className="font-semibold">Vikram Iyer</div>
             <div className="text-xs text-muted-foreground mt-1">Project Manager</div>

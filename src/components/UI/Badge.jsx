@@ -37,7 +37,7 @@ export function ComplexityPill({ complexity }) {
 
 export function RoleBadge({ role }) {
   const isMgr = role === 'manager';
-  const color = isMgr ? '#00D4AA' : '#A855F7';
+  const color = isMgr ? '#0B6E4F' : '#A855F7';
   return (
     <span
       className="inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider"
@@ -51,10 +51,10 @@ export function RoleBadge({ role }) {
 export function ActionBadge({ action }) {
   const map = {
     ADVANCE:  '#3B82F6',
-    APPROVE:  '#22C55E',
+    APPROVE:  '#046307',
     REJECT:   '#EF4444',
     ASSIGN:   '#A855F7',
-    CREATE:   '#00D4AA',
+    CREATE:   '#0B6E4F',
     REOPEN:   '#F59E0B',
     OVERRIDE: '#EAB308',
   };
@@ -69,7 +69,7 @@ export function ActionBadge({ action }) {
   );
 }
 
-export function Avatar({ initials, size = 32, color = '#00D4AA' }) {
+export function Avatar({ initials, size = 32, color = '#0B6E4F' }) {
   return (
     <div
       className="inline-flex items-center justify-center rounded-full font-semibold text-[#0B0F1A]"

@@ -43,7 +43,7 @@ export function AppShell({ children }) {
       if (!candidates.length) return;
       const pick = candidates[Math.floor(Math.random() * candidates.length)];
       const target = pick.assignedTo
-        ? { name: ['Arjun Mehta','Priya Nair','Karthik Rajan','Divya Suresh'].find(n => n) || 'System', role: 'engineer' }
+        ? { name: ['Arjun Mehta', 'Priya Nair', 'Karthik Rajan', 'Divya Suresh'].find(n => n) || 'System', role: 'engineer' }
         : { name: 'System', role: 'engineer' };
       const ns = nextStage(pick.stage);
       if (!ns) return;
@@ -65,7 +65,7 @@ export function AppShell({ children }) {
         </main>
       </div>
       {tooNarrow && (
-        <div className="fixed inset-0 z-[200] bg-[#0B0F1A]/95 backdrop-blur flex items-center justify-center p-8">
+        <div className="fixed inset-0 z-[200] bg-white/95 backdrop-blur flex items-center justify-center p-8">
           <div className="liq-card-elevated max-w-md text-center p-8">
             <div className="text-2xl font-bold mb-2">Best viewed on desktop</div>
             <p className="text-sm text-muted-foreground">

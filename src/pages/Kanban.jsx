@@ -71,7 +71,7 @@ export default function Kanban() {
         {confirm && (
           <div>
             <div className="text-sm">
-              <span className="font-mono text-[#00D4AA]">{confirm.block.id}</span> — {confirm.block.name}
+              <span className="font-mono text-[#0B6E4F]">{confirm.block.id}</span> — {confirm.block.name}
             </div>
             <div className="mt-4 flex items-center gap-3">
               <StageBadge stage={confirm.block.stage} size="lg" />
@@ -103,7 +103,7 @@ function KanbanCard({ block, user, onAdvance }) {
       style={{ width: 280, borderLeft: `3px solid ${cfg.color}` }}
     >
       <div className="flex items-start justify-between gap-2">
-        <div className="text-[11px] font-mono" style={{ color: '#00D4AA' }}>{block.id}</div>
+        <div className="text-[11px] font-mono" style={{ color: '#0B6E4F' }}>{block.id}</div>
         <ComplexityPill complexity={block.complexity} />
       </div>
       <div className="mt-1 text-sm font-semibold leading-snug">{block.name}</div>
@@ -143,7 +143,7 @@ function KanbanCard({ block, user, onAdvance }) {
         )}
         {canAdvance && !showSubmit && (
           <button onClick={() => onAdvance(block)} className="liq-btn w-full text-xs py-1.5"
-            style={{ border: '1px solid #00D4AA', color: '#00D4AA', background: 'transparent' }}>
+            style={{ border: '1px solid #0B6E4F', color: '#0B6E4F', background: 'transparent' }}>
             Advance Stage <ArrowRight size={12} />
           </button>
         )}

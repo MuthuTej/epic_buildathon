@@ -10,12 +10,12 @@ import { Avatar, RoleBadge } from '../UI/Badge';
 
 const items = [
   { to: '/dashboard', label: 'Dashboard', Icon: LayoutDashboard },
-  { to: '/blocks',    label: 'Blocks',    Icon: Layers },
-  { to: '/kanban',    label: 'Kanban',    Icon: Kanban },
-  { to: '/effort',    label: 'Effort',    Icon: Clock },
+  { to: '/blocks', label: 'Blocks', Icon: Layers },
+  { to: '/kanban', label: 'Kanban', Icon: Kanban },
+  { to: '/effort', label: 'Effort', Icon: Clock },
   { to: '/resources', label: 'Resources', Icon: Users },
   { to: '/approvals', label: 'Approvals', Icon: CheckCircle },
-  { to: '/audit',     label: 'Audit Log', Icon: ScrollText },
+  { to: '/audit', label: 'Audit Log', Icon: ScrollText },
 ];
 
 export function Sidebar({ collapsed, setCollapsed }) {
@@ -26,15 +26,15 @@ export function Sidebar({ collapsed, setCollapsed }) {
 
   return (
     <aside
-      className="h-screen sticky top-0 flex flex-col bg-[#111827] border-r border-white/10 transition-[width] duration-200"
+      className="h-screen sticky top-0 flex flex-col bg-white border-r border-gray-200 transition-[width] duration-200"
       style={{ width }}
     >
       {/* Logo */}
-      <div className="flex items-center gap-2 px-4 py-5 border-b border-white/10">
+      <div className="flex items-center gap-2 px-4 py-5 border-b border-gray-200">
         <LogoMark />
         {!collapsed && (
           <div className="text-lg font-bold tracking-tight">
-            Layout<span style={{ color: '#00D4AA' }}>IQ</span>
+            Layout<span style={{ color: '#000000' }}>IQ</span>
           </div>
         )}
       </div>
@@ -50,15 +50,15 @@ export function Sidebar({ collapsed, setCollapsed }) {
               [
                 'group relative flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors',
                 isActive
-                  ? 'bg-[#00D4AA]/12 text-[#00D4AA]'
-                  : 'text-muted-foreground hover:bg-white/5 hover:text-foreground',
+                  ? 'bg-black/5 text-black'
+                  : 'text-muted-foreground hover:bg-gray-50 hover:text-foreground',
               ].join(' ')
             }
           >
             {({ isActive }) => (
               <>
                 {isActive && (
-                  <span className="absolute left-0 top-1.5 bottom-1.5 w-0.5 rounded-r" style={{ background: '#00D4AA' }} />
+                  <span className="absolute left-0 top-1.5 bottom-1.5 w-0.5 rounded-r" style={{ background: '#000000' }} />
                 )}
                 <Icon size={18} className="shrink-0" />
                 {!collapsed && <span className="truncate">{label}</span>}
@@ -75,7 +75,7 @@ export function Sidebar({ collapsed, setCollapsed }) {
       </nav>
 
       {/* User */}
-      <div className="border-t border-white/10 p-3">
+      <div className="border-t border-gray-200 p-3">
         {user && (
           <div className={`flex items-center gap-3 ${collapsed ? 'justify-center' : ''}`}>
             <Avatar initials={user.initials} />
@@ -94,7 +94,7 @@ export function Sidebar({ collapsed, setCollapsed }) {
         )}
         <button
           onClick={() => setCollapsed((v) => !v)}
-          className="mt-3 w-full flex items-center justify-center gap-2 rounded-md py-1.5 text-xs text-muted-foreground hover:bg-white/5 hover:text-foreground"
+          className="mt-3 w-full flex items-center justify-center gap-2 rounded-md py-1.5 text-xs text-muted-foreground hover:bg-gray-50 hover:text-foreground"
         >
           {collapsed ? <ChevronsRight size={14} /> : <><ChevronsLeft size={14} /> Collapse</>}
         </button>
@@ -107,9 +107,9 @@ function LogoMark() {
   return (
     <div
       className="h-8 w-8 rounded-lg flex items-center justify-center shrink-0"
-      style={{ background: 'linear-gradient(135deg, #00D4AA, #0E7490)' }}
+      style={{ background: 'linear-gradient(135deg, #222222, #000000)' }}
     >
-      <Cpu size={18} color="#0B0F1A" strokeWidth={2.5} />
+      <Cpu size={18} color="#FFFFFF" strokeWidth={2.5} />
     </div>
   );
 }

@@ -56,7 +56,7 @@ function ManagerApprovals() {
               <div className="flex items-start gap-4">
                 <StageBadge stage="REVIEW" size="lg" />
                 <div className="flex-1 min-w-0">
-                  <div className="text-[11px] font-mono" style={{ color: '#00D4AA' }}>{b.id}</div>
+                  <div className="text-[11px] font-mono" style={{ color: '#0B6E4F' }}>{b.id}</div>
                   <div className="text-base font-semibold">{b.name}</div>
                   <div className="text-xs text-muted-foreground mt-1">{b.type} · {b.techNode} · <ComplexityPill complexity={b.complexity} /></div>
                   {eng && (
@@ -71,7 +71,7 @@ function ManagerApprovals() {
                     onClick={() => setExpanded(isOpen ? null : b.id)}
                     className="mt-3 text-xs text-muted-foreground hover:text-foreground inline-flex items-center gap-1"
                   >
-                    {isOpen ? <ChevronUp size={12}/> : <ChevronDown size={12}/>} View Stage History
+                    {isOpen ? <ChevronUp size={12} /> : <ChevronDown size={12} />} View Stage History
                   </button>
                   {isOpen && (
                     <div className="mt-3 space-y-2 pl-4 relative">
@@ -91,12 +91,12 @@ function ManagerApprovals() {
                 </div>
                 <div className="flex flex-col gap-2 shrink-0">
                   <button onClick={() => setConfirm({ kind: 'approve', block: b })}
-                    className="liq-btn text-xs px-4" style={{ background: '#22C55E', color: '#0B0F1A' }}>
-                    <Check size={14}/> Approve
+                    className="liq-btn text-xs px-4" style={{ background: '#046307', color: '#0B0F1A' }}>
+                    <Check size={14} /> Approve
                   </button>
                   <button onClick={() => { setReason(''); setConfirm({ kind: 'reject', block: b }); }}
                     className="liq-btn text-xs px-4" style={{ background: '#EF4444', color: '#0B0F1A' }}>
-                    <X size={14}/> Reject
+                    <X size={14} /> Reject
                   </button>
                 </div>
               </div>
@@ -108,7 +108,7 @@ function ManagerApprovals() {
       <div className="liq-card overflow-hidden">
         <div className="px-4 py-3 border-b border-white/10 text-sm font-semibold">Approval History</div>
         <table className="w-full text-sm">
-          <thead className="text-[11px] uppercase tracking-wider text-muted-foreground bg-[#1A2030]">
+          <thead className="text-[11px] uppercase tracking-wider text-muted-foreground bg-gray-50">
             <tr><Th>Block ID</Th><Th>Name</Th><Th>Decision</Th><Th>By</Th><Th>Timestamp</Th></tr>
           </thead>
           <tbody>
@@ -117,12 +117,12 @@ function ManagerApprovals() {
               const isApprove = a.action === 'APPROVE';
               return (
                 <tr key={a.id} className="border-t border-white/[0.06]"
-                  style={{ boxShadow: `inset 3px 0 0 0 ${isApprove ? '#22C55E' : '#EF4444'}` }}>
-                  <Td className="font-mono text-[12px]" style={{ color: '#00D4AA' }}>{a.blockId}</Td>
+                  style={{ boxShadow: `inset 3px 0 0 0 ${isApprove ? '#046307' : '#EF4444'}` }}>
+                  <Td className="font-mono text-[12px]" style={{ color: '#0B6E4F' }}>{a.blockId}</Td>
                   <Td>{a.blockName}</Td>
                   <Td>
                     <span className="text-[10px] font-bold uppercase tracking-wider rounded px-2 py-0.5"
-                      style={{ background: (isApprove ? '#22C55E' : '#EF4444') + '22', color: isApprove ? '#22C55E' : '#EF4444' }}>
+                      style={{ background: (isApprove ? '#046307' : '#EF4444') + '22', color: isApprove ? '#046307' : '#EF4444' }}>
                       {isApprove ? 'Approved' : 'Rejected'}
                     </span>
                   </Td>
@@ -141,10 +141,10 @@ function ManagerApprovals() {
         title="Approve Block"
         footer={<>
           <button className="liq-btn liq-btn-ghost" onClick={() => setConfirm(null)}>Cancel</button>
-          <button className="liq-btn" style={{ background: '#22C55E', color: '#0B0F1A' }} onClick={doApprove}>Confirm Approve</button>
+          <button className="liq-btn" style={{ background: '#046307', color: '#0B0F1A' }} onClick={doApprove}>Confirm Approve</button>
         </>}
       >
-        {confirm && <p className="text-sm text-muted-foreground">Mark <span className="font-mono text-[#00D4AA]">{confirm.block.id}</span> as Completed?</p>}
+        {confirm && <p className="text-sm text-muted-foreground">Mark <span className="font-mono text-[#0B6E4F]">{confirm.block.id}</span> as Completed?</p>}
       </Modal>
 
       <Modal
@@ -183,7 +183,7 @@ function EngineerApprovals() {
 
       {inReview.map((b) => (
         <div key={b.id} className="liq-card p-4" style={{ borderLeft: '4px solid #EAB308', background: 'rgba(234,179,8,0.06)' }}>
-          <div className="text-[11px] font-mono" style={{ color: '#00D4AA' }}>{b.id}</div>
+          <div className="text-[11px] font-mono" style={{ color: '#0B6E4F' }}>{b.id}</div>
           <div className="text-sm font-semibold">{b.name}</div>
           <div className="text-xs mt-2" style={{ color: '#EAB308' }}>⏳ Awaiting manager review</div>
         </div>
@@ -193,7 +193,7 @@ function EngineerApprovals() {
         <div key={b.id} className="liq-card p-4" style={{ borderLeft: '4px solid #EF4444', background: 'rgba(239,68,68,0.06)' }}>
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0 flex-1">
-              <div className="text-[11px] font-mono" style={{ color: '#00D4AA' }}>{b.id}</div>
+              <div className="text-[11px] font-mono" style={{ color: '#0B6E4F' }}>{b.id}</div>
               <div className="text-sm font-semibold">{b.name} — rejected</div>
               <blockquote className="mt-2 text-sm italic text-foreground/85 border-l-2 border-[#EF4444]/60 pl-3">
                 “{b.rejectionComment}”
@@ -220,8 +220,8 @@ function EngineerApprovals() {
           <div className="liq-card divide-y divide-white/5">
             {recent.map((b) => (
               <div key={b.id} className="p-3 flex items-center gap-3">
-                <span className="h-2 w-2 rounded-full" style={{ background: '#22C55E' }} />
-                <span className="font-mono text-[12px] text-[#00D4AA]">{b.id}</span>
+                <span className="h-2 w-2 rounded-full" style={{ background: '#046307' }} />
+                <span className="font-mono text-[12px] text-[#0B6E4F]">{b.id}</span>
                 <span className="text-sm">{b.name}</span>
                 <span className="ml-auto text-[11px] text-muted-foreground">Completed</span>
               </div>

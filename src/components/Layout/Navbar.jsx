@@ -35,7 +35,7 @@ export function Navbar() {
   }, [blocks]);
 
   return (
-    <header className="sticky top-0 z-40 h-16 bg-[#0B0F1A]/85 backdrop-blur border-b border-white/10 flex items-center px-6 gap-6">
+    <header className="sticky top-0 z-40 h-16 bg-white/85 backdrop-blur border-b border-gray-200 flex items-center px-6 gap-6">
       <h1 className="text-lg font-semibold tracking-tight">{title}</h1>
 
       <div className="flex-1 flex justify-center">
@@ -46,9 +46,9 @@ export function Navbar() {
             border: `1px solid ${danger ? 'rgba(239,68,68,0.45)' : 'rgba(0,212,170,0.45)'}`,
           }}
         >
-          <CountdownRing pct={completedPct} color={danger ? '#EF4444' : '#00D4AA'} />
-          <Rocket size={14} style={{ color: danger ? '#EF4444' : '#00D4AA' }} />
-          <span className="text-sm font-semibold" style={{ color: danger ? '#EF4444' : '#F1F5F9' }}>
+          <CountdownRing pct={completedPct} color={danger ? '#EF4444' : '#0B6E4F'} />
+          <Rocket size={14} style={{ color: danger ? '#EF4444' : '#0B6E4F' }} />
+          <span className="text-sm font-semibold" style={{ color: danger ? '#EF4444' : '#111827' }}>
             Tapeout in {daysLeft} day{daysLeft === 1 ? '' : 's'}
           </span>
           <span className="text-xs text-muted-foreground">· {completedPct}% complete</span>
@@ -74,7 +74,7 @@ function CountdownRing({ pct, color }) {
   const offset = c - (pct / 100) * c;
   return (
     <svg width="26" height="26" viewBox="0 0 26 26">
-      <circle cx="13" cy="13" r={r} stroke="rgba(255,255,255,0.12)" strokeWidth="2.5" fill="none" />
+      <circle cx="13" cy="13" r={r} stroke="rgba(0,0,0,0.12)" strokeWidth="2.5" fill="none" />
       <circle
         cx="13" cy="13" r={r}
         stroke={color} strokeWidth="2.5" fill="none"

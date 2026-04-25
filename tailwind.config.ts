@@ -50,7 +50,7 @@ export default {
           foreground: "hsl(var(--card-foreground))",
         },
         teal: {
-          DEFAULT: "#00D4AA",
+          DEFAULT: "#10B981",
         },
         stage: {
           notstarted: "#EF4444",
@@ -60,7 +60,7 @@ export default {
           lvs: "#06B6D4",
           review: "#EAB308",
           rejected: "#6B7280",
-          completed: "#22C55E",
+          completed: "#046307",
         },
       },
       borderRadius: {
@@ -70,6 +70,7 @@ export default {
       },
       fontFamily: {
         sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
+        serif: ["Playfair Display", "ui-serif", "Georgia", "serif"],
         mono: ["JetBrains Mono", "ui-monospace", "SFMono-Regular", "monospace"],
       },
       keyframes: {
